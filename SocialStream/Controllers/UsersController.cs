@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace SocialStream.Controllers
 {
+    [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
     public class UsersController : ApiController
     {
         // GET api/users
@@ -38,7 +40,7 @@ namespace SocialStream.Controllers
         }
 
         [HttpPost]
-        public string createUser(string username, string password)
+        public string login(string email, string password)
         {
             return "Hello World";
         }
