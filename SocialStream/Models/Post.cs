@@ -12,20 +12,18 @@ namespace SocialStream.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class users
+    public partial class Post
     {
         public int id { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
+        public string fullname { get; set; }
+        public string text { get; set; }
+        public string username { get; set; }
+        public string image { get; set; }
+        public string avatar { get; set; }
+        public Nullable<System.DateTime> timestamp { get; set; }
         public Nullable<System.DateTime> created_at { get; set; }
         public Nullable<System.DateTime> updated_at { get; set; }
-        public string username { get; set; }
-        public string status { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public string company_name { get; set; }
-        public string password_salt { get; set; }
-        public string tag { get; set; }
-        public Nullable<int> @event { get; set; }
+        public string state { get; set; }
+        public string source { get; set; }
     }
 }

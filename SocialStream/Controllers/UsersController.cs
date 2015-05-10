@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialStream.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -40,10 +41,41 @@ namespace SocialStream.Controllers
         }
 
         [HttpPost]
-        public string login(string email, string password)
+        public User login(string email, string password)
         {
-            return "Hello World";
+            socialstream_developmentEntities db = new socialstream_developmentEntities();
+
+            try
+            {                
+                User user = db.User.Where(usr => usr.email == email && usr.password == password).FirstOrDefault();
+                return user;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            
+        }
+        [HttpPost]
+        public User create(string email, string password)
+        {
+            socialstream_developmentEntities db = new socialstream_developmentEntities();
+
+            User user = new User();
+            user.email = email;
+            user.password = password;
+
+            db.User.Add(user);
+            db.SaveChanges();
+
+            return user;
         }
 
+        [HttpPost]
+        public void setactivetopic(string topic)
+        {
+            //TODO implement setactivetopic which sets active topic
+        }
     }
 }

@@ -25,7 +25,8 @@ namespace SocialStream.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<posts> posts { get; set; }
-        public DbSet<users> users { get; set; }
+        public DbSet<Post> Post { get; set; }
+        public DbSet<Thread> Thread { get; set; }
+        public DbSet<User> User { get; set; }
     }
 }

@@ -4,8 +4,8 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="socialstream_developmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="posts">
+      <Schema Namespace="socialstream_developmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Post">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -21,7 +21,14 @@
           <Property Name="state" Type="varchar" MaxLength="255" />
           <Property Name="source" Type="varchar" MaxLength="255" />
         </EntityType>
-        <EntityType Name="users">
+        <EntityType Name="Thread">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -38,16 +45,19 @@
           <Property Name="password_salt" Type="varchar" MaxLength="255" />
           <Property Name="tag" Type="varchar" MaxLength="255" />
           <Property Name="event" Type="int" />
+          <Property Name="duration" Type="int" />
         </EntityType>
         <EntityContainer Name="socialstream_developmentModelStoreContainer">
-          <EntitySet Name="posts" EntityType="Self.posts" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Thread" EntityType="Self.Thread" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="socialstream_developmentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="posts">
+        <EntityType Name="Post">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -63,7 +73,14 @@
           <Property Name="state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="source" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="users">
+        <EntityType Name="Thread">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" />
+        </EntityType>
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -80,10 +97,12 @@
           <Property Name="password_salt" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="tag" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="event" Type="Int32" />
+          <Property Name="duration" Type="Int32" />
         </EntityType>
         <EntityContainer Name="socialstream_developmentEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="posts" EntityType="Self.posts" />
-          <EntitySet Name="users" EntityType="Self.users" />
+          <EntitySet Name="Post" EntityType="Self.Post" />
+          <EntitySet Name="Thread" EntityType="Self.Thread" />
+          <EntitySet Name="User" EntityType="Self.User" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -91,9 +110,9 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="socialstream_developmentModelStoreContainer" CdmEntityContainer="socialstream_developmentEntities">
-          <EntitySetMapping Name="posts">
-            <EntityTypeMapping TypeName="socialstream_developmentModel.posts">
-              <MappingFragment StoreEntitySet="posts">
+          <EntitySetMapping Name="Post">
+            <EntityTypeMapping TypeName="socialstream_developmentModel.Post">
+              <MappingFragment StoreEntitySet="Post">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />
                 <ScalarProperty Name="text" ColumnName="text" />
@@ -108,9 +127,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="socialstream_developmentModel.users">
-              <MappingFragment StoreEntitySet="users">
+          <EntitySetMapping Name="Thread">
+            <EntityTypeMapping TypeName="socialstream_developmentModel.Thread">
+              <MappingFragment StoreEntitySet="Thread">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="socialstream_developmentModel.User">
+              <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="password" ColumnName="password" />
@@ -124,6 +151,7 @@
                 <ScalarProperty Name="password_salt" ColumnName="password_salt" />
                 <ScalarProperty Name="tag" ColumnName="tag" />
                 <ScalarProperty Name="event" ColumnName="event" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
