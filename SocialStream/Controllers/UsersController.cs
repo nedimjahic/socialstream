@@ -1,4 +1,5 @@
 ﻿using SocialStream.Models;
+using SocialStream.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,33 +44,38 @@ namespace SocialStream.Controllers
         [HttpPost]
         public User login(string email, string password)
         {
-            socialstream_developmentEntities db = new socialstream_developmentEntities();
+            using (socialstream_developmentEntities data = new socialstream_developmentEntities())
+            {
+                try
+                {
+                    string hashedPassword = Hash.getSHA1String(password);
+                    User user = data.User.Where(usr => usr.email == email && usr.password == hashedPassword && usr.status == "active").FirstOrDefault();
+                    return user;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }                
+            }
+        }
 
-            try
-            {                
-                User user = db.User.Where(usr => usr.email == email && usr.password == password).FirstOrDefault();
+        [HttpPost]
+        public User create(string email, string password, int duration)
+        {
+            using (socialstream_developmentEntities data = new socialstream_developmentEntities())
+            {
+                User user = new User();
+                user.email = email;
+                user.password = Hash.getSHA1String(password);
+                user.created_at = DateTime.Now;
+                user.duration = duration;
+                user.status = "active";
+
+                data.User.Add(user);
+                data.SaveChanges();
+
                 return user;
             }
-            catch (Exception)
-            {
-                return null;
-            }
-
-            
-        }
-        [HttpPost]
-        public User create(string email, string password)
-        {
-            socialstream_developmentEntities db = new socialstream_developmentEntities();
-
-            User user = new User();
-            user.email = email;
-            user.password = password;
-
-            db.User.Add(user);
-            db.SaveChanges();
-
-            return user;
         }
 
         [HttpPost]
