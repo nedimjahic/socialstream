@@ -25,5 +25,6 @@ namespace SocialStream.Models
         public Nullable<System.DateTime> updated_at { get; set; }
         public string state { get; set; }
         public string source { get; set; }
+        public Nullable<int> userId { get; set; }
     }
 }

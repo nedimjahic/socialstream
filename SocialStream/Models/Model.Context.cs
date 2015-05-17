@@ -28,5 +28,6 @@ namespace SocialStream.Models
         public DbSet<Post> Post { get; set; }
         public DbSet<Thread> Thread { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Log> Log { get; set; }
     }
 }

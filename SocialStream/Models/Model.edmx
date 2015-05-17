@@ -5,11 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="socialstream_developmentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ErrorMessage" Type="varchar" MaxLength="4000" />
+          <Property Name="ErrorStack" Type="varchar" MaxLength="4000" />
+        </EntityType>
         <EntityType Name="Post">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" />
           <Property Name="fullname" Type="text" />
           <Property Name="text" Type="varchar" MaxLength="255" />
           <Property Name="username" Type="varchar" MaxLength="255" />
@@ -48,6 +57,7 @@
           <Property Name="duration" Type="int" />
         </EntityType>
         <EntityContainer Name="socialstream_developmentModelStoreContainer">
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Thread" EntityType="Self.Thread" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -71,6 +81,7 @@
           <Property Name="updated_at" Type="DateTime" Precision="3" />
           <Property Name="state" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="source" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="userId" Type="Int32" />
         </EntityType>
         <EntityType Name="Thread">
           <Key>
@@ -102,7 +113,16 @@
           <EntitySet Name="Post" EntityType="Self.Post" />
           <EntitySet Name="Thread" EntityType="Self.Thread" />
           <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="Log" EntityType="socialstream_developmentModel.Log" />
         </EntityContainer>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorStack" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -112,6 +132,7 @@
           <EntitySetMapping Name="Post">
             <EntityTypeMapping TypeName="socialstream_developmentModel.Post">
               <MappingFragment StoreEntitySet="Post">
+                <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />
                 <ScalarProperty Name="text" ColumnName="text" />
@@ -151,6 +172,15 @@
                 <ScalarProperty Name="tag" ColumnName="tag" />
                 <ScalarProperty Name="event" ColumnName="event" />
                 <ScalarProperty Name="duration" ColumnName="duration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="socialstream_developmentModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="ErrorStack" ColumnName="ErrorStack" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
