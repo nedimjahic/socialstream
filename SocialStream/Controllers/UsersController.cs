@@ -94,24 +94,52 @@ namespace SocialStream.Controllers
         {
             Topic topic = new Topic(hashtag, user);
 
-            BackgroundWorker timerBw = new BackgroundWorker();
-            timerBw.DoWork += initiateTimer;
-            timerBw.RunWorkerAsync(topic);
+            BackgroundWorker bw = new BackgroundWorker();
+            bw.WorkerSupportsCancellation = true;
+            bw.DoWork += initiateTimer;
+            bw.RunWorkerAsync(topic);
 
         }
 
         private void initiateTimer(object sender, DoWorkEventArgs e)
         {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
             Timer timer = new Timer(5000);
-            timer.Elapsed += (s, args) => getPosts(e.Argument as Topic);
+            timer.Elapsed += (s, args) => getPosts(worker, e, s);
             timer.Enabled = true;            
         }
 
-        private void getPosts(Topic topic)
+        private void getPosts(object w, DoWorkEventArgs e, object s)
         {
+            Timer timer = s as Timer;
+            Topic topic = e.Argument as Topic;
+            BackgroundWorker worker = w as BackgroundWorker;
+
+            if (worker.CancellationPending)
+            {
+                Debug.WriteLine("Closing thread for user ID: " + topic.user + " @" + DateTime.Now);
+                e.Cancel = true;
+                timer.Enabled = false;
+                timer.Dispose();
+                return;
+            }
+
             Debug.WriteLine("Retrieving posts @" + DateTime.Now);
             getTwitterPosts(topic);
             getInstagramPosts(topic);
+
+            using (DC data = new DC())
+            {
+                if (!data.getUserStatus(topic.user))
+                {
+                    (worker as BackgroundWorker).CancelAsync();
+                    Models.User user = data.getUser(topic.user);
+                    user.updated_at = DateTime.Now;
+                    user.status = "inactive";
+                    data.SaveChanges();
+                }
+            }
         }
 
         private void getInstagramPosts(Topic topic)
@@ -130,7 +158,6 @@ namespace SocialStream.Controllers
 
                     foreach (var instagramPost in response.Result.Data)
                     {
-                        Debug.WriteLine(instagramPost.Caption.Text);
                         if (since == null || instagramPost.CreatedTime > since)
                         {
                             Post post = new Post();

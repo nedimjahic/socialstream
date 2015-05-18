@@ -23,5 +23,21 @@ namespace SocialStream.DAL
         {
             return Post.Where(p => p.source == "instagram").Max(p => p.created_at);
         }
+
+        internal bool getUserStatus(string p)
+        {
+            int? duration = User.Find(Convert.ToInt32(p)).duration;
+            DateTime? created = User.Find(Convert.ToInt32(p)).created_at;
+
+            if (created.Value.AddMinutes(Convert.ToDouble(duration)) > DateTime.Now)
+                return true;
+            else
+                return false;
+        }
+
+        internal Models.User getUser(string id)
+        {
+            return User.Find(Convert.ToInt32(id));                        
+        }
     }
 }
