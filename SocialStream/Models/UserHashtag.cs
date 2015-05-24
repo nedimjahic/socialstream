@@ -12,9 +12,10 @@ namespace SocialStream.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Thread
+    public partial class UserHashtag
     {
+        public int user_id { get; set; }
+        public string hashtag { get; set; }
         public int id { get; set; }
-        public Nullable<int> user_id { get; set; }
     }
 }

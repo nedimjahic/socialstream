@@ -6,9 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="a2bf816dd2854428a49b700c4e26b065" Name="Diagram1">
         <EntityTypeShape EntityType="socialstream_developmentModel.Post" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="socialstream_developmentModel.Thread" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="socialstream_developmentModel.User" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="socialstream_developmentModel.Log" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="socialstream_developmentModel.UserHashtag" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

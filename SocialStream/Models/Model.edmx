@@ -30,13 +30,6 @@
           <Property Name="state" Type="varchar" MaxLength="255" />
           <Property Name="source" Type="varchar" MaxLength="255" />
         </EntityType>
-        <EntityType Name="Thread">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="user_id" Type="int" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
@@ -56,11 +49,19 @@
           <Property Name="event" Type="int" />
           <Property Name="duration" Type="int" />
         </EntityType>
+        <EntityType Name="UserHashtag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="hashtag" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="socialstream_developmentModelStoreContainer">
           <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Post" EntityType="Self.Post" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Thread" EntityType="Self.Thread" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserHashtag" EntityType="Self.UserHashtag" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -83,13 +84,6 @@
           <Property Name="source" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="userId" Type="Int32" />
         </EntityType>
-        <EntityType Name="Thread">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="user_id" Type="Int32" />
-        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="id" />
@@ -111,9 +105,9 @@
         </EntityType>
         <EntityContainer Name="socialstream_developmentEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Post" EntityType="Self.Post" />
-          <EntitySet Name="Thread" EntityType="Self.Thread" />
           <EntitySet Name="User" EntityType="Self.User" />
           <EntitySet Name="Log" EntityType="socialstream_developmentModel.Log" />
+          <EntitySet Name="UserHashtag" EntityType="socialstream_developmentModel.UserHashtag" />
         </EntityContainer>
         <EntityType Name="Log">
           <Key>
@@ -122,6 +116,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ErrorMessage" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <Property Name="ErrorStack" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UserHashtag">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="hashtag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -144,14 +146,6 @@
                 <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="state" ColumnName="state" />
                 <ScalarProperty Name="source" ColumnName="source" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Thread">
-            <EntityTypeMapping TypeName="socialstream_developmentModel.Thread">
-              <MappingFragment StoreEntitySet="Thread">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -181,6 +175,15 @@
                 <ScalarProperty Name="ErrorStack" ColumnName="ErrorStack" />
                 <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserHashtag">
+            <EntityTypeMapping TypeName="socialstream_developmentModel.UserHashtag">
+              <MappingFragment StoreEntitySet="UserHashtag">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="hashtag" ColumnName="hashtag" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
