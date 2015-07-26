@@ -22,7 +22,6 @@ using Facebook;
 
 namespace SocialStream.Controllers
 {
-    [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
     public class UsersController : ApiController
     {
         // GET api/users
